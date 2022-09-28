@@ -3,7 +3,7 @@ import unittest
 # Counts the number of a's in a sentence (e.g., a string)
 def count_a(sentence):
 	total = 0
-	for i in range(len(sentence) - 1):
+	for i in sentence:
 		if i == 'a':
 			total += 1
 	return total
@@ -38,15 +38,27 @@ class Warehouse:
 
 	# Adds an item to the warehouse	
 	def add_item(self, item):
-		pass
+		self.items.append(item)
 
 	# Returns the item in the warehouse with the most stock		
 	def get_max_stock(self):
-		pass
+		max_stock = self.items[0].stock
+		for item in self.items:
+			if item.stock > max_stock:
+				max_stock = item.stock
+				max_item = item
+		return max_item
 	
 	# Returns the item in the warehouse with the highest price
 	def get_max_price(self):
-		pass	
+		max_price = self.items[0].price
+		for item in self.items:
+			if item.price > max_price:
+				max_price = item.price
+				max_item = item
+		return max_item
+		
+
 
 
 
@@ -61,24 +73,32 @@ class TestAllMethods(unittest.TestCase):
 		self.item4 = Item("Fanta", 2, 60)
 		self.item5 = Item("CocaCola", 3, 40)
 
+		self.warehouse1 = Warehouse([self.item1, self.item2, self.item3, self.item4])
+
 	## Check to see whether count_a works
 	def test_count_a(self):
-		pass
+		self.assertEquals(count_a("Hello, nice to meet you!"), 0, "Test case for 0 a's")
+		self.assertEquals(count_a("Janice ran many days."), 4, "Test case for a's")
+	
 
 
 	## Check to see whether you can add an item to the warehouse
+	
+	
 	def test_add_item(self):
-		pass
+		self.assertEquals(self.warehouse1.add_item(self.item5), [self.item1, self.item2, self.item3, self.item4, self.item5], "Appended item5 to warehouse1")
+
 
 
 	## Check to see whether warehouse correctly returns the item with the most stock
 	def test_warehouse_max_stocks(self):
-		pass
+		self.assertEquals(self.warehouse1.get_max_stock(), "Water", "Getting most stocked item in warehouse")
+		
 
 
 	# Check to see whether the warehouse correctly return the item with the highest price
 	def test_warehouse_max_price(self):
-		pass
+		self.assertEquals(self.warehouse1.get_max_price(), "Beer", "Getting highest priced item in warehouse")
 		
 
 def main():
